@@ -30,17 +30,34 @@ namespace DbForWS
 
             try
             {
-                SqlConnection connection = new SqlConnection(@"server=(localdb)\v11.0");
+                SqlConnection connection = new SqlConnection(@"server=(localdb)\MSSQLLocalDB");
                 using (connection)
                 {
                     connection.Open();
-                    string sql = string.Format(@"CREATE DATABASE [WebServices] ON PRIMARY (NAME=WebServices,FILENAME = '{0}\WebServices.mdf')LOG ON (NAME=WebServices_log,FILENAME = '{0}\WebServices_log.ldf')", @"|DataDirectory|\WebServices.mdf");
+                    string sql = string.Format(@"CREATE DATABASE [WebServices] ON PRIMARY (NAME=WebServices,FILENAME = '{0}\WebServices.mdf')LOG ON (NAME=WebServices_log,FILENAME = '{0}\WebServices_log.ldf')", @"D:\College\C#\DbForWS\DbForWS\bin\Debug\");
                     SqlCommand command = new SqlCommand(sql, connection);
                     command.ExecuteNonQuery();
+
+                    //create table timetables
+                    command = new SqlCommand(@"create table TimeTables(Id int, LessonName nvarchar(50), LessonTeacher nvarchar (50), Room nvarchar(50), Week int);", connection);
+                    command.ExecuteNonQuery();
+
+                    //create table usertable
+                    command = new SqlCommand(@"create table UserTable(Id int, FirstName nvarchar(50), LastName nvarchar(50), AccountNumber nvarchar (50), Password nvarchar(50), Token nvarchar(MAX), Email nvarchar(50), Dob date, GroupName nvarchar (50));", connection);
+                    command.ExecuteNonQuery();
+
+                    //create table events
+                    command = new SqlCommand(@"create table Events (Id int, Name nvarchar (50), Description nvarchar(max), Day int, Month int, Year int);", connection);
+                    command.ExecuteNonQuery();
+
+                    //create table TableOfStatements
+                    command = new SqlCommand(@"create table TableOfStatements(AccountNumber nvarchar(50), ApplicationDate date, TypeOfStatement nvarchar (50), Verification bit);", connection);
+                    command.ExecuteNonQuery();
                 }
-            }
-            catch (Exception)
+        }
+            catch (SqlException ex)
             {
+                MessageBox.Show(ex.Message);
                 c = true;
             }
 
@@ -55,28 +72,30 @@ namespace DbForWS
             dataGridView1.Height = this.Height - 24;
             this.Enabled = false;
             this.Cursor = Cursors.WaitCursor;
-            if (CreateDB())
-                using (SqlCommand comm = new SqlCommand("SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_TYPE LIKE '%TABLE%'", connection))
+
+            CreateDB();
+
+            using (SqlCommand comm = new SqlCommand("SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_TYPE LIKE '%TABLE%'", connection))
+            {
+                //try
+                //{
+                connection.Open();
+                var reader = comm.ExecuteReader();
+                while (reader.Read())
                 {
-                    //try
-                    //{
-                    connection.Open();
-                    var reader = comm.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        toolStripComboBox1.Items.Add(reader.GetString(0));
-                    }
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK);
-                    //    this.Enabled = true;
-                    //    this.Cursor = Cursors.Default;
-                    //    return;
-                    //}
-
-
+                    toolStripComboBox1.Items.Add(reader.GetString(0));
                 }
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK);
+                //    this.Enabled = true;
+                //    this.Cursor = Cursors.Default;
+                //    return;
+                //}
+
+
+            }
             this.Enabled = true;
             this.Cursor = Cursors.Default;
         }

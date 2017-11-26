@@ -1,0 +1,10 @@
+D:\College\C#\DbForWS\DbForWS\bin\Debug\DbForWS.exe.config
+D:\College\C#\DbForWS\DbForWS\bin\Debug\DbForWS.exe
+D:\College\C#\DbForWS\DbForWS\bin\Debug\DbForWS.pdb
+D:\College\C#\DbForWS\DbForWS\obj\Debug\DbForWS.csprojResolveAssemblyReference.cache
+D:\College\C#\DbForWS\DbForWS\obj\Debug\DbForWS.Form1.resources
+D:\College\C#\DbForWS\DbForWS\obj\Debug\DbForWS.Properties.Resources.resources
+D:\College\C#\DbForWS\DbForWS\obj\Debug\DbForWS.csproj.GenerateResource.Cache
+D:\College\C#\DbForWS\DbForWS\obj\Debug\DbForWS.csproj.CoreCompileInputs.cache
+D:\College\C#\DbForWS\DbForWS\obj\Debug\DbForWS.exe
+D:\College\C#\DbForWS\DbForWS\obj\Debug\DbForWS.pdb
