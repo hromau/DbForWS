@@ -20,7 +20,7 @@ namespace DbForWS
         }
 
 
-        public static SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\WebServices.mdf;Integrated Security=True;Connect Timeout=30");
+        public static SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\College\C#\DbForWS\DbForWS\bin\Debug\WebServices.mdf;Integrated Security=True;Connect Timeout=30");
         //Thread AppExit = new Thread(CloseAndExit);
 
         static bool CreateDB()
@@ -39,22 +39,45 @@ namespace DbForWS
                     command.ExecuteNonQuery();
 
                     //create table timetables
-                    command = new SqlCommand(@"create table TimeTables(Id int, LessonName nvarchar(50), LessonTeacher nvarchar (50), Room nvarchar(50), Week int);", connection);
+                    command = new SqlCommand(@"create table TimeTables 
+                        (
+                            Id int not null, 
+                            LessonName nvarchar(50)not null,
+                            LessonTeacher nvarchar (50) not null, 
+                            Room nvarchar(50) not null,
+                            Week int(10) not null
+                        );", connection);
                     command.ExecuteNonQuery();
 
                     //create table usertable
-                    command = new SqlCommand(@"create table UserTable(Id int, FirstName nvarchar(50), LastName nvarchar(50), AccountNumber nvarchar (50), Password nvarchar(50), Token nvarchar(MAX), Email nvarchar(50), Dob date, GroupName nvarchar (50));", connection);
+                    command = new SqlCommand(@"create table UserTable(Id int not null,
+                            FirstName nvarchar(50) not null,
+                            LastName nvarchar(50) not null,
+                            AccountNumber nvarchar (50) not null,
+                            Password nvarchar(50) not null, 
+                            Token nvarchar(255) not null,
+                            Email nvarchar(50) not null,
+                            Dob date not null,
+                            GroupName nvarchar (50) not null);", connection);
                     command.ExecuteNonQuery();
 
                     //create table events
-                    command = new SqlCommand(@"create table Events (Id int, Name nvarchar (50), Description nvarchar(max), Day int, Month int, Year int);", connection);
+                    command = new SqlCommand(@"create table Events (Id int,
+                                        Name nvarchar (50) not null,
+                                        Description nvarchar(255) not null,
+                                        Day int not null,
+                                        Month int not null,
+                                        Year int not null);", connection);
                     command.ExecuteNonQuery();
 
                     //create table TableOfStatements
-                    command = new SqlCommand(@"create table TableOfStatements(AccountNumber nvarchar(50), ApplicationDate date, TypeOfStatement nvarchar (50), Verification bit);", connection);
+                    command = new SqlCommand(@"create table TableOfStatements(AccountNumber nvarchar(50), 
+                                            ApplicationDate date not null,
+                                            TypeOfStatement nvarchar (50) not null,
+                                            Verification bit not null);", connection);
                     command.ExecuteNonQuery();
                 }
-        }
+            }
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message);
